@@ -21,10 +21,9 @@ def add_box(canvas):
 def add_line(canvas):
     line = Line()
     line.matrix.translate(randint(50, 350), randint(50, 350))
-    view.canvas.add(line)
+    canvas.add(line)
     line.handles()[1].pos = (30, 30)
-    #segment = Segment(line, canvas)
-    #segment.split_segment(0)
+
 
 class Handler:
     def __init__(self, canvas):
@@ -39,18 +38,22 @@ class Handler:
     def on_btn2_clicked(self, button):
         add_line(self.canvas)
 
-builder = Gtk.Builder()
-builder.add_from_file("GUI_test.glade")
+def Main():
+    builder = Gtk.Builder()
+    builder.add_from_file("GUI_test.glade")
 
-view = GtkView() #Gtk widget
-view.painter = DefaultPainter()
-view.canvas = Canvas()
+    view = GtkView() #Gtk widget
+    view.painter = DefaultPainter()
+    view.canvas = Canvas()
 
-builder.connect_signals(Handler(view.canvas))
+    builder.connect_signals(Handler(view.canvas))
 
-gaphas_window = builder.get_object("GaphasWindow")
-gaphas_window.add(view)
+    gaphas_window = builder.get_object("GaphasWindow")
+    gaphas_window.add(view)
 
-window = builder.get_object("MainWindow")
-window.show_all()
-Gtk.main()
+    window = builder.get_object("MainWindow")
+    window.show_all()
+    Gtk.main()
+
+if __name__ == "__main__":
+    Main()
