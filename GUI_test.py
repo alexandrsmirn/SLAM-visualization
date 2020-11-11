@@ -8,13 +8,12 @@ from gaphas.examples import Box
 from gaphas.painter import DefaultPainter
 from gaphas.item import Line
 from gaphas.segment import Segment
+from landmark import Landmark
 
 from random import randint
 
-def add_box(canvas):
-    b2 = Box(60, 60)
-    b2.min_width = 40
-    b2.min_height = 50
+def add_landmark(canvas):
+    b2 = Landmark()
     b2.matrix.translate(randint(50, 350), randint(50, 350))
     canvas.add(b2)
 
@@ -33,7 +32,7 @@ class Handler:
         Gtk.main_quit()
 
     def on_btn1_clicked(self, button):
-        add_box(self.canvas)
+        add_landmark(self.canvas)
 
     def on_btn2_clicked(self, button):
         add_line(self.canvas)
