@@ -41,7 +41,7 @@
                     <property name="margin-end">3</property>
                     <property name="margin-top">3</property>
                     <property name="margin-bottom">3</property>
-                    <property name="label" translatable="yes">btn1</property>
+                    <property name="label" translatable="yes">Add landmark</property>
                     <property name="use-underline">True</property>
                     <signal name="clicked" handler="on_btn1_clicked" swapped="no"/>
                   </object>
@@ -59,7 +59,7 @@
                     <property name="margin-end">3</property>
                     <property name="margin-top">3</property>
                     <property name="margin-bottom">3</property>
-                    <property name="label" translatable="yes">btn2</property>
+                    <property name="label" translatable="yes">Add line</property>
                     <property name="use-underline">True</property>
                     <signal name="clicked" handler="on_btn2_clicked" swapped="no"/>
                   </object>
