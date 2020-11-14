@@ -26,6 +26,7 @@ def add_line(canvas):
 
 def handle_changed(view, item, what):
     stack = builder.get_object("PropertiesStack")
+    print(item)
     if (type(item) is Landmark):
         stack.set_visible_child_name("LandmarkFrame")
     else:
