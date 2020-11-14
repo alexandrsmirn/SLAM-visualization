@@ -10,6 +10,7 @@ from gaphas.item import Line
 from gaphas.segment import Segment
 from landmark import Landmark
 
+
 from random import randint
 
 def add_landmark(canvas):
@@ -22,6 +23,13 @@ def add_line(canvas):
     line.matrix.translate(randint(50, 350), randint(50, 350))
     canvas.add(line)
     line.handles()[1].pos = (30, 30)
+
+def handle_changed(view, item, what):
+    stack = builder.get_object("PropertiesStack")
+    if (type(item) is Landmark):
+        stack.set_visible_child_name("LandmarkFrame")
+    else:
+        stack.set_visible_child_name("EmptyFrame")
 
 
 class Handler:
@@ -38,12 +46,14 @@ class Handler:
         add_line(self.canvas)
 
 def Main():
+    global builder
     builder = Gtk.Builder()
     builder.add_from_file("GUI_test.glade")
 
     view = GtkView() #Gtk widget
     view.painter = DefaultPainter()
     view.canvas = Canvas()
+    view.connect("focus-changed", handle_changed, "focus")
 
     builder.connect_signals(Handler(view.canvas))
 
