@@ -22,11 +22,10 @@ def add_line(canvas):
     line = Line()
     line.matrix.translate(randint(50, 350), randint(50, 350))
     canvas.add(line)
-    line.handles()[1].pos = (30, 30)
+    line.handles()[1].pos = (40, 40)
 
 def handle_changed(view, item, what):
     stack = builder.get_object("PropertiesStack")
-    print(item)
     if (type(item) is Landmark):
         stack.set_visible_child_name("LandmarkFrame")
     else:
