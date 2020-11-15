@@ -6,18 +6,16 @@ from gaphas.connector import PointPort
 class Landmark(Item):
     def __init__(self):
         super().__init__()
-        self._handles.extend((Handle(), Handle()))
-        h1, h2 = self._handles
+        self._handles.append(Handle())
+        h1 = self._handles[0]
         h1.movable = False
         h1.visible = False
-        h2.visible = False
-        h2.movable = False
 
         self.radius = 20
         self._ports.append(PointPort(h1.pos))
 
     def point(self, pos):
-        h1, _ = self._handles
+        h1 = self._handles[0]
         p1 = h1.pos
         x, y = pos
         dist = ((x - p1.x) ** 2 + (y - p1.y) ** 2) ** 0.5
