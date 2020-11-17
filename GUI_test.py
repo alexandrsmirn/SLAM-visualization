@@ -9,21 +9,21 @@ from gaphas.painter import DefaultPainter
 from gaphas.item import Line
 from gaphas.segment import Segment
 from landmark import Landmark
-from Edge import Edge
+from edge import Edge
 
 
 from random import randint
 
 def add_landmark(canvas):
-    b2 = Landmark()
-    b2.matrix.translate(randint(50, 350), randint(50, 350))
-    canvas.add(b2)
+    landmark = Landmark()
+    landmark.matrix.translate(randint(50, 350), randint(50, 350))
+    canvas.add(landmark)
 
-def add_line(canvas):
-    line = Edge()
-    line.matrix.translate(randint(50, 350), randint(50, 350))
-    canvas.add(line)
-    line.handles()[1].pos = (40, 40)
+def add_edge(canvas):
+    edge = Edge()
+    edge.matrix.translate(randint(50, 350), randint(50, 350))
+    canvas.add(edge)
+    edge.handles()[1].pos = (40, 40)
 
 def handle_changed(view, item, what):
     stack = builder.get_object("PropertiesStack")
@@ -32,11 +32,10 @@ def handle_changed(view, item, what):
     else:
         stack.set_visible_child_name("EmptyFrame")
 
-
 class Handler:
-    def __init__(self, canvas):
-        self.canvas = canvas
-        self.selected_element = None
+    def __init__(self, view):
+        self.canvas = view.canvas
+        self.view = view
 
     def on_MainWindow_destroy(self, *args):
         Gtk.main_quit()
@@ -45,17 +44,17 @@ class Handler:
         add_landmark(self.canvas)
 
     def on_btn2_clicked(self, button):
-        add_line(self.canvas)
+        add_edge(self.canvas)
 
     def on_btn3_clicked(self, button):
-        obj = self.selected_element
-        if type(obj) is Edge:
-            h1, h2 = obj.handles()
+        item = self.view.focused_item
+        if type(item) is Edge:
+            h1, h2 = item.handles()
             print(self.canvas.get_connection(h1))
             print(self.canvas.get_connection(h2))
 
     def handle_changed(self, view, item, what):
-        self.selected_element = item
+        view.focused_item = item
         stack = builder.get_object("PropertiesStack")
         if (type(item) is Landmark):
             stack.set_visible_child_name("LandmarkFrame")
@@ -71,7 +70,7 @@ def Main():
     view.painter = DefaultPainter()
     view.canvas = Canvas()
 
-    handler = Handler(view.canvas)
+    handler = Handler(view)
     builder.connect_signals(handler)
     view.connect("focus-changed", handler.handle_changed, "focus")
 
