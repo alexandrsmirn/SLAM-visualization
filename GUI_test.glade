@@ -77,7 +77,20 @@
                     <signal name="clicked" handler="on_btn3_clicked" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="btn4">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Add pose</property>
+                    <property name="use-underline">True</property>
+                    <signal name="clicked" handler="on_btn4_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
