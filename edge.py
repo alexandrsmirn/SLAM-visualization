@@ -33,9 +33,6 @@ class Edge(Item):
         self._line_width = line_width
 
     def opposite(self, handle):
-        """
-        Given the handle of one end of the line, return the other end.
-        """
         handles = self._handles
         if handle is handles[0]:
             return handles[-1]
@@ -45,8 +42,6 @@ class Edge(Item):
             raise KeyError("Handle is not an end handle")
 
     def post_update(self, context):
-        """
-        """
         super().post_update(context)
         h0, h1 = self._handles[:2]
         p0, p1 = h0.pos, h1.pos
@@ -56,17 +51,6 @@ class Edge(Item):
         self._tail_angle = atan2(p1.y - p0.y, p1.x - p0.x)
 
     def point(self, pos):
-        """
-        >>> a = Line()
-        >>> a.handles()[1].pos = 25, 5
-        >>> a._handles.append(a._create_handle((30, 30)))
-        >>> a.point((-1, 0))
-        1.0
-        >>> f"{a.point((5, 4)):.3f}
-        '2.942'
-        >>> f"{a.point((29, 29)):.3f}
-        '0.784'
-        """
         hpos = [h.pos for h in self._handles]
 
         distance, _point = min(

@@ -43,7 +43,6 @@ class Handler:
     def __init__(self, view):
         self.canvas = view.canvas
         self.view = view
-        self.weed: int
 
     def on_MainWindow_destroy(self, *args):
         Gtk.main_quit()
@@ -61,6 +60,9 @@ class Handler:
             #print(type(self.canvas.get_connection(h1)))
             print(self.canvas.get_connection(h1))
             print(self.canvas.get_connection(h2))
+        
+    def on_btn4_clicked(self, button):
+        add_pose(self.canvas)
 
     def handle_changed(self, view, item, what):
         view.focused_item = item
