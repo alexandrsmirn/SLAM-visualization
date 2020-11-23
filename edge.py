@@ -25,11 +25,8 @@ class Edge(Item):
 
     def __init__(self):
         super().__init__()
-        self._handles = [Handle(connectable=True), Handle((10, 10), connectable=True)]
-        self._ports = []
-
+        self._handles = (Handle(connectable=True), Handle((10, 10), connectable=True))
         self._line_width = 2
-        self._head_angle = self._tail_angle = 0
 
     @observed
     def _set_line_width(self, line_width):

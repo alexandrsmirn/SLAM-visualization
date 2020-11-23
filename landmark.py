@@ -31,4 +31,4 @@ class Landmark(Item):
         cr.fill_preserve()
         #cr.set_source_rgb(0, 0, 0.8)
         cr.stroke()
-        #cr.stroke()
+        #TODO: transparency
