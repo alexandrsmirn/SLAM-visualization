@@ -21,6 +21,9 @@ from gaphas.state import (
 
 from gaphas.item import Item
 
+import mrob
+import numpy as np
+
 class Edge(Item):
 
     def __init__(self):
@@ -93,3 +96,30 @@ class Edge(Item):
             cr.line_to(*h.pos)
         draw_line_end(self._handles[-1].pos, self._tail_angle, self.draw_tail)
         cr.stroke()
+
+
+class Factor_pp_2D(Edge):
+    def __init__(self):
+        super().__init__()
+        self.observation = np.empty((3, 1), dtype=np.float64)
+        self.covariance_matrix = np.empty((3, 3), dtype=np.float64)
+
+class Factor_pl_2D(Edge):
+    def __init__(self):
+        super().__init__()
+        self.observation = np.empty((2, 1), dtype=np.float64)
+        self.covariance_matrix = np.empty((2, 2), dtype=np.float64)
+
+class Factor_pp_3D(Edge):
+     def __init__(self):
+        super().__init__()
+        self.observation = np.empty((6, 6), dtype=np.float64)
+        self.covariance_matrix = np.empty((3, 3), dtype=np.float64)
+
+class Factor_pl_3D(Edge):
+     def __init__(self):
+        super().__init__()
+        self.observation = np.empty((3, 1), dtype=np.float64)
+        self.covariance_matrix = np.empty((3, 3), dtype=np.float64)
+
+
