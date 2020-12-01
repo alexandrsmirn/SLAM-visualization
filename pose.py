@@ -48,14 +48,14 @@ class Pose(Item):
         cr.stroke()
 
 class Pose2D(Pose):
-    def __init__(self):
+    def __init__(self, position: np.array((3,1), dtype=np.float64)):
         super().__init__()
-        self.position = np.empty((3,1), dtype=np.float64)
+        self.position = position
 
 
 class Anchor2D(Pose2D):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, position):
+        super().__init__(position)
         #todo one more parameter
         self.covariance_matrix = np.empty((3, 3), dtype=np.float64)
         self.colour = (1, 0, 0, 0.8)
