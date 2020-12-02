@@ -45,6 +45,14 @@ def add_factor_pp(canvas, observation, cov_matrix):
     
     return wrapper
 
+def add_factor_pl(canvas, observation, cov_matrix):
+    def wrapper():
+        factor = Factor_pl_2D(observation, cov_matrix)
+        canvas.add(factor)
+        return factor
+
+    return wrapper
+
 def add_pose(canvas, position):
     def wrapper():
         pose = Pose2D(position)
@@ -106,6 +114,7 @@ class Handler:
                 value = float(text)
             except:
                 print("Error in entry {}".format(i))
+                entry.set_text("")
                 return
 
             position[i-1] = value
@@ -134,6 +143,7 @@ class Handler:
                 value = float(entry.get_text())
             except:
                 print("Error in entry {}".format(i))
+                entry.set_text("")
                 return
             observation[i-1] = value
 
@@ -171,6 +181,33 @@ class Handler:
                 self.pose_pose_matrix[i-1, j-1] = value
 
         self.are_cov_matrices_set = True
+
+
+    
+    def on_NewFactorPLBtn_clicked(self, button):
+        stack = builder.get_object("PropertiesStack")
+        stack.set_visible_child_name("NewFactor2DPLFrame")
+
+
+
+    def on_AddFactor2DPLBtn_clicked(self, button):
+        observation = np.empty((2, 1), dtype=np.float64)    
+
+        if (not self.are_cov_matrices_set):
+            print("set cov matrices!!!")
+            return
+
+        for i in range(1, 3):
+            entry = builder.get_object("NewFactor2DPLEntry{}".format(i))
+            try:
+                value = float(entry.get_text())
+            except:
+                print("Error in entry {}".format(i))
+                entry.set_text("")
+                return
+            observation[i-1] = value
+
+        self.view.tool.grab(PlacementTool(self.view, add_factor_pl(self.canvas, observation, self.pose_landmark_matrix), HandleTool(), 1))
 
         
 

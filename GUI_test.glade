@@ -96,6 +96,19 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkToolButton" id="SetCovMatricesBtn">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Setup covariance matrices</property>
+                    <property name="use-underline">True</property>
+                    <signal name="clicked" handler="on_SetCovMatricesBtn_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkToolButton" id="NewFactorPPBtn">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -109,12 +122,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="SetCovMatricesBtn">
+                  <object class="GtkToolButton">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Setup covariance matrices</property>
+                    <property name="label" translatable="yes">New factor Pose-Landmark</property>
                     <property name="use-underline">True</property>
-                    <signal name="clicked" handler="on_SetCovMatricesBtn_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_NewFactorPLBtn_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -554,7 +567,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="AddFactor2DPPBtn">
-                            <property name="label" translatable="yes">Add pose</property>
+                            <property name="label" translatable="yes">Add factor Pose-Pose</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
@@ -880,6 +893,111 @@
                     <property name="name">SetCovMatrices2DFrame</property>
                     <property name="title" translatable="yes">page1</property>
                     <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFrame" id="NewFactor2DPLFrame">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label-xalign">0</property>
+                    <property name="shadow-type">none</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkFrame">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label-xalign">0.05000000074505806</property>
+                            <property name="shadow-type">none</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="valign">center</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-end">10</property>
+                                <property name="margin-top">5</property>
+                                <property name="margin-bottom">5</property>
+                                <property name="spacing">10</property>
+                                <child>
+                                  <object class="GtkEntry" id="NewFactor2DPLEntry1">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="width-chars">4</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="NewFactor2DPLEntry2">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="width-chars">4</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-start">3</property>
+                                <property name="margin-end">3</property>
+                                <property name="margin-top">3</property>
+                                <property name="margin-bottom">3</property>
+                                <property name="label" translatable="yes">Observation</property>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="AddFactor2DPLBtn">
+                            <property name="label" translatable="yes">Add factor Pose-Landmark</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                            <property name="margin-start">10</property>
+                            <property name="margin-end">10</property>
+                            <property name="margin-top">10</property>
+                            <property name="margin-bottom">10</property>
+                            <signal name="clicked" handler="on_AddFactor2DPLBtn_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="label">
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">New factor2D Pose-Landmark</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="name">NewFactor2DPLFrame</property>
+                    <property name="title" translatable="yes">page0</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
               </object>
