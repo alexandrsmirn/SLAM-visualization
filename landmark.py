@@ -36,10 +36,10 @@ class Landmark(Item):
         cr.stroke()
         #TODO: transparency
 
-class Landmark2D:
+class Landmark2D(Landmark):
     pass
 
-class Landmark3D:
+class Landmark3D(Landmark):
     pass
     
 

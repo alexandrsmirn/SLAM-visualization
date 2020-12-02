@@ -13,22 +13,13 @@ from gaphas.tool import HandleTool, PlacementTool
 import numpy as np
 
 from landmark import Landmark, Landmark2D
-from edge import Edge
+from edge import Edge, Factor_pl_2D, Factor_pp_2D
 from pose import Pose2D
 
-from gaphas.painter import (
-    BoundingBoxPainter,
-    FocusedItemPainter,
-    HandlePainter,
-    ItemPainter,
-    PainterChain,
-    ToolPainter,
-)
-
-from gaphas.freehand import FreeHandPainter
-
-
 from random import randint
+
+
+
 
 def add_landmark(canvas):
     #builder.get_object("MainWindow").set_cursor(Gtk.Cursor.new(Gtk.CursorType.CROSSHAIR))
@@ -44,6 +35,15 @@ def add_edge(canvas):
     edge.matrix.translate(randint(50, 350), randint(50, 350))
     canvas.add(edge)
     edge.handles()[1].pos = (40, 40)
+
+
+def add_factor_pp(canvas, observation, cov_matrix):
+    def wrapper():
+        factor = Factor_pp_2D(observation, cov_matrix)
+        canvas.add(factor)
+        return factor
+    
+    return wrapper
 
 def add_pose(canvas, position):
     def wrapper():
@@ -64,11 +64,15 @@ class Handler:
     def __init__(self, view):
         self.view = view    
         self.canvas = view.canvas
+        self.pose_landmark_matrix = np.empty((2, 2), dtype=np.float64)
+        self.pose_pose_matrix = np.empty((3, 3), dtype=np.float64)
+        self.are_cov_matrices_set = False
+
 
     def on_MainWindow_destroy(self, *args):
         Gtk.main_quit()
 
-    def on_newLandmarkBtn_clicked(self, button):
+    def on_NewLandmarkBtn_clicked(self, button):
         self.view.tool.grab(PlacementTool(self.view, add_landmark(self.canvas), HandleTool(), 0))
 
     def on_btn2_clicked(self, button):
@@ -81,8 +85,10 @@ class Handler:
             #print(type(self.canvas.get_connection(h1)))
             print(self.canvas.get_connection(h1))
             print(self.canvas.get_connection(h2))
-        
-    def on_newPoseBtn_clicked(self, button):
+
+    
+
+    def on_NewPoseBtn_clicked(self, button):
         stack = builder.get_object("PropertiesStack")
         stack.set_visible_child_name("NewPose2DFrame")
 
@@ -97,7 +103,7 @@ class Handler:
             print(text)
 
             try:
-                value = np.fromstring(text, dtype=np.float64, sep=' ', count=1)[0]
+                value = float(text)
             except:
                 print("Error in entry {}".format(i))
                 return
@@ -106,7 +112,67 @@ class Handler:
         
         self.view.tool.grab(PlacementTool(self.view, add_pose(self.canvas, position), HandleTool(), 0))
 
+        
 
+    
+    def on_NewFactorPPBtn_clicked(self, button):
+        stack = builder.get_object("PropertiesStack")
+        stack.set_visible_child_name("NewFactor2DPPFrame")
+
+
+    
+    def on_AddFactor2DPPBtn_clicked(self, button):
+        observation = np.empty((3, 1), dtype=np.float64)    
+
+        if (not self.are_cov_matrices_set):
+            print("set cov matrices!!!")
+            return
+
+        for i in range(1, 4):
+            entry = builder.get_object("NewFactor2DPPEntry{}".format(i))
+            try:
+                value = float(entry.get_text())
+            except:
+                print("Error in entry {}".format(i))
+                return
+            observation[i-1] = value
+
+        self.view.tool.grab(PlacementTool(self.view, add_factor_pp(self.canvas, observation, self.pose_pose_matrix), HandleTool(), 1))#???? 1 or 0
+
+
+
+    def on_SetCovMatricesBtn_clicked(self, button):
+        stack = builder.get_object("PropertiesStack")
+        stack.set_visible_child_name("SetCovMatrices2DFrame")
+
+
+
+    def on_ApplyCovMatrices2DBtn_clicked(self, button):
+        for i in range(1, 3):
+            for j in range(1, 3):
+                entry = builder.get_object("PL2DMatrixEntry{}{}".format(i, j))
+                try:
+                    value = float(entry.get_text())
+                except:
+                    print("Error in PL matrix entry {}, {}".format(i, j))
+                    entry.set_text("")
+                    return
+                self.pose_landmark_matrix[i-1, j-1] = value
+
+        for i in range(1, 4):
+            for j in range(1, 4):
+                entry = builder.get_object("PP2DMatrixEntry{}{}".format(i, j))
+                try:
+                    value = float(entry.get_text())
+                except:
+                    print("Error in PP matrix entry {}, {}".format(i, j))
+                    entry.set_text("")
+                    return
+                self.pose_pose_matrix[i-1, j-1] = value
+
+        self.are_cov_matrices_set = True
+
+        
 
     def focus_changed(self, view, item, what):
         view.focused_item = item
@@ -118,22 +184,12 @@ class Handler:
 
 def Main():
     global builder
+
     builder = Gtk.Builder()
     builder.add_from_file("GUI_test.glade")
 
     view = GtkView() #Gtk widget
     view.painter = DefaultPainter()
-
-    #view.painter = (
-    #    PainterChain()
-    #    .append(FreeHandPainter(ItemPainter(view)))
-    #    .append(HandlePainter(view))
-    #    .append(FocusedItemPainter(view))
-    #    .append(ToolPainter(view))
-    #)
-    #view.bounding_box_painter = BoundingBoxPainter(
-    #    FreeHandPainter(ItemPainter(view))
-    #)
 
     view.canvas = Canvas()
 

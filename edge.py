@@ -99,16 +99,16 @@ class Edge(Item):
 
 
 class Factor_pp_2D(Edge):
-    def __init__(self):
+    def __init__(self, observation: np.array((3, 1), dtype=np.float64), cov_matrix: np.array((3, 3), dtype=np.float64)):
         super().__init__()
-        self.observation = np.empty((3, 1), dtype=np.float64)
-        self.covariance_matrix = np.empty((3, 3), dtype=np.float64)
+        self.observation = observation
+        self.covariance_matrix = cov_matrix
 
 class Factor_pl_2D(Edge):
-    def __init__(self):
+    def __init__(self, observation: np.array((2, 1), dtype=np.float64), cov_matrix: np.array((2, 2), dtype=np.float64)):
         super().__init__()
-        self.observation = np.empty((2, 1), dtype=np.float64)
-        self.covariance_matrix = np.empty((2, 2), dtype=np.float64)
+        self.observation = observation
+        self.covariance_matrix = cov_matrix
 
 class Factor_pp_3D(Edge):
      def __init__(self):
