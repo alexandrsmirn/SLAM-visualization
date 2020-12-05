@@ -233,8 +233,12 @@ class Handler:
         graph.solve(mrob.fgraph.LM)
         graph.print(True)
 
-        
 
+    def on_DeleteFocusedBtn_clicked(self, button):
+        if self.view.focused_item:
+            self.canvas.remove(self.view.focused_item)
+
+        
     def focus_changed(self, view, item, what):
         view.focused_item = item
         stack = builder.get_object("PropertiesStack")

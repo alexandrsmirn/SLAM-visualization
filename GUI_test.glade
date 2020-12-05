@@ -104,11 +104,25 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkToolButton" id="DeleteFocusedBtn">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Delete focused</property>
+                    <property name="use-underline">True</property>
+                    <signal name="clicked" handler="on_DeleteFocusedBtn_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkToolButton" id="PlotGraphBtn">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Plot graph</property>
                     <property name="use-underline">True</property>
+                    <property name="icon-name">dialog-ok</property>
                     <signal name="clicked" handler="on_PlotGraphBtn_clicked" swapped="no"/>
                   </object>
                   <packing>
