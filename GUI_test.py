@@ -20,8 +20,6 @@ from random import randint
 import mrob
 
 
-
-
 def add_landmark(canvas):
     #builder.get_object("MainWindow").set_cursor(Gtk.Cursor.new(Gtk.CursorType.CROSSHAIR))
     def wrapper():
@@ -84,18 +82,6 @@ class Handler:
 
     def on_NewLandmarkBtn_clicked(self, button):
         self.view.tool.grab(PlacementTool(self.view, add_landmark(self.canvas), HandleTool(), 0))
-
-    def on_btn2_clicked(self, button):
-        add_edge(self.canvas)
-
-    def on_btn3_clicked(self, button):
-        item = self.view.focused_item
-        if type(item) is Edge:
-            h1, h2 = item.handles()
-            #print(type(self.canvas.get_connection(h1)))
-            print(self.canvas.get_connection(h1).connected)
-            print(self.canvas.get_connection(h2).connected)
-
     
 
     def on_NewPoseBtn_clicked(self, button):
