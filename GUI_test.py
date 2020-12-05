@@ -14,9 +14,10 @@ import numpy as np
 
 from landmark import Landmark, Landmark2D
 from edge import Edge, Factor_pl_2D, Factor_pp_2D
-from pose import Pose2D
+from pose import Pose, Pose2D
 
 from random import randint
+import mrob
 
 
 
@@ -75,6 +76,7 @@ class Handler:
         self.pose_landmark_matrix = np.empty((2, 2), dtype=np.float64)
         self.pose_pose_matrix = np.empty((3, 3), dtype=np.float64)
         self.are_cov_matrices_set = False
+        self.has_anchor = False
 
 
     def on_MainWindow_destroy(self, *args):
@@ -91,8 +93,8 @@ class Handler:
         if type(item) is Edge:
             h1, h2 = item.handles()
             #print(type(self.canvas.get_connection(h1)))
-            print(self.canvas.get_connection(h1))
-            print(self.canvas.get_connection(h2))
+            print(self.canvas.get_connection(h1).connected)
+            print(self.canvas.get_connection(h2).connected)
 
     
 
@@ -209,6 +211,49 @@ class Handler:
 
         self.view.tool.grab(PlacementTool(self.view, add_factor_pl(self.canvas, observation, self.pose_landmark_matrix), HandleTool(), 1))
 
+
+    def on_PlotGraphBtn_clicked(self, button):
+        items = self.canvas.get_all_items()
+    
+        for item in items:
+            if isinstance(item, Landmark):
+                item.id = graph.add_node_landmark_2d(np.array([0,0]))
+            elif isinstance(item, Pose):
+                item.id = graph.add_node_pose_2d(item.position)
+                if not self.has_anchor:#TODO
+                    graph.add_factor_1pose_2d(np.zeros(3), item.id, self.pose_pose_matrix)
+                    self.has_anchor = True
+
+        for item in items:
+            if isinstance(item, Factor_pl_2D):
+                h1, h2 = item.handles()
+                first_connected = self.canvas.get_connection(h1).connected
+                second_connected = self.canvas.get_connection(h2).connected
+
+                if isinstance(second_connected, Landmark) and isinstance(first_connected, Pose):
+                    graph.add_factor_1pose_1landmark_2d(item.observation, first_connected.id, second_connected.id, self.pose_landmark_matrix)
+
+                elif isinstance(second_connected.Pose) and isinstance(second_connected, Landmark):
+                    graph.add_factor_1pose_1landmark_2d(item.observation, second_connected.id, first_connected.id, self.pose_landmark_matrix)
+
+                else:
+                    print("Error")
+
+            elif isinstance(item, Factor_pp_2D):
+                h1, h2 = item.handles()
+                first_connected = self.canvas.get_connection(h1).connected
+                second_connected = self.canvas.get_connection(h2).connected
+
+                if (isinstance(first_connected, Pose) and isinstance(second_connected, Pose)):
+                    graph.add_factor_2poses_2d(item.observation, first_connected.id, second_connected.id, self.pose_pose_matrix)
+                
+                else:
+                    print("Error")
+
+        graph.print()
+        graph.solve(mrob.fgraph.LM)
+        graph.print(True)
+
         
 
     def focus_changed(self, view, item, what):
@@ -221,6 +266,9 @@ class Handler:
 
 def Main():
     global builder
+    global graph
+
+    graph = mrob.fgraph.FGraph()
 
     builder = Gtk.Builder()
     builder.add_from_file("GUI_test.glade")

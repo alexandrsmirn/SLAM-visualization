@@ -104,6 +104,17 @@ class Factor_pp_2D(Edge):
         self.observation = observation
         self.covariance_matrix = cov_matrix
 
+    def draw_tail(self, context):
+        """
+        Default tail drawer: draw line to the last handle.
+        """
+        cr = context.cairo
+        cr.line_to(0, 0)
+        cr.stroke()
+        cr.move_to(15, -6)
+        cr.line_to(0, 0)
+        cr.line_to(15, 6)
+
 class Factor_pl_2D(Edge):
     def __init__(self, observation: np.array((2, 1), dtype=np.float64), cov_matrix: np.array((2, 2), dtype=np.float64)):
         super().__init__()
