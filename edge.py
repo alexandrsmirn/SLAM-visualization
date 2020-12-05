@@ -121,6 +121,10 @@ class Factor_pl_2D(Edge):
         self.observation = observation
         self.covariance_matrix = cov_matrix
 
+    def draw(self, context):
+        context.cairo.set_dash([15, 10])
+        super().draw(context)
+
 class Factor_pp_3D(Edge):
      def __init__(self):
         super().__init__()

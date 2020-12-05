@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from gaphas import Canvas, GtkView
 from gaphas.examples import Box
@@ -21,20 +21,13 @@ import mrob
 
 
 def add_landmark(canvas):
-    #builder.get_object("MainWindow").set_cursor(Gtk.Cursor.new(Gtk.CursorType.CROSSHAIR))
+    #builder.get_object("GaphasWindow").set_cursor(Gdk.Cursor.new(Gdk.CursorType.CROSSHAIR))
     def wrapper():
         landmark = Landmark2D()
         canvas.add(landmark)
         return landmark
 
     return wrapper
-
-def add_edge(canvas):
-    edge = Edge()
-    edge.matrix.translate(randint(50, 350), randint(50, 350))
-    canvas.add(edge)
-    edge.handles()[1].pos = (40, 40)
-
 
 def add_factor_pp(canvas, observation, cov_matrix):
     def wrapper():
