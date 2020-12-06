@@ -214,7 +214,7 @@ class Handler:
                 if isinstance(second_connected, Landmark) and isinstance(first_connected, Pose):
                     graph.add_factor_1pose_1landmark_2d(item.observation, first_connected.id, second_connected.id, self.pose_landmark_matrix)
 
-                elif isinstance(second_connected.Pose) and isinstance(first_connected, Landmark):
+                elif isinstance(second_connected, Pose) and isinstance(first_connected, Landmark):
                     graph.add_factor_1pose_1landmark_2d(item.observation, second_connected.id, first_connected.id, self.pose_landmark_matrix)
 
                 else:
