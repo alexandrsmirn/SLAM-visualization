@@ -8,7 +8,7 @@ from gaphas.examples import Box
 from gaphas.painter import DefaultPainter
 from gaphas.item import Line
 from gaphas.segment import Segment
-from gaphas.tool import HandleTool, PlacementTool
+from gaphas.tool import HandleTool, PlacementTool, ConnectHandleTool    
 
 import numpy as np
 
@@ -20,6 +20,26 @@ from random import randint
 import mrob
 import pickle
 
+class MyPlacementTool(PlacementTool):
+    def on_button_press(self, event):
+        view = self.view
+        canvas = view.canvas
+        pos = event.get_coords()[1:]
+        new_item = self._create_item(pos)
+        # Enforce matrix update, as a good matrix is required for the handle
+        # positioning:
+        canvas.get_matrix_i2c(new_item, calculate=True)
+
+        self._new_item = new_item
+        view.focused_item = new_item
+
+        self.handle_tool.connect(new_item, new_item.handles()[0], pos)############
+
+        h = new_item.handles()[self._handle_index]
+        if h.movable:
+            self.handle_tool.grab_handle(new_item, h)
+            self.grabbed_handle = h
+        return True
 
 def add_landmark(canvas):
     #builder.get_object("GaphasWindow").set_cursor(Gdk.Cursor.new(Gdk.CursorType.CROSSHAIR))
@@ -130,7 +150,7 @@ class Handler:
                 return
             observation[i-1] = value
 
-        self.view.tool.grab(PlacementTool(self.view, add_factor_pp(self.canvas, observation, self.pose_pose_matrix), HandleTool(), 1))#???? 1 or 0
+        self.view.tool.grab(MyPlacementTool(self.view, add_factor_pp(self.canvas, observation, self.pose_pose_matrix), ConnectHandleTool(), 1))#???? 1 or 0
 
 
 
@@ -190,7 +210,7 @@ class Handler:
                 return
             observation[i-1] = value
 
-        self.view.tool.grab(PlacementTool(self.view, add_factor_pl(self.canvas, observation, self.pose_landmark_matrix), HandleTool(), 1))
+        self.view.tool.grab(MyPlacementTool(self.view, add_factor_pl(self.canvas, observation, self.pose_landmark_matrix), ConnectHandleTool(), 1))
 
 
     def on_PlotGraphBtn_clicked(self, button):
