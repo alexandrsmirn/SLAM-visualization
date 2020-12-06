@@ -19,6 +19,7 @@ from pose import Pose, Pose2D
 from random import randint
 import mrob
 import pickle
+import gaphas.picklers
 
 class MyPlacementTool(PlacementTool):
     def on_button_press(self, event):
@@ -92,8 +93,17 @@ class Handler:
 
 
     def on_MainWindow_destroy(self, *args):
-        #pickle.dump(self.canvas.get_all_items()[0], open('canvas.pkl', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
         Gtk.main_quit()
+
+    def on_SaveCanvasBtn_clicked(self, btn):
+        if self.are_cov_matrices_set:
+            pickle.dump(self.pose_landmark_matrix, open('saves/pl_matrix.pkl', 'wb'))
+            pickle.dump(self.pose_pose_matrix, open('saves/pp_matrix.pkl', 'wb'))
+            pickle.dump(self.view.canvas, open('saves/canvas.pkl', 'wb'))
+        else:
+            print("Set cov matrices!!!")
+
+        
 
     def on_NewLandmarkBtn_clicked(self, button):
         self.view.tool.grab(PlacementTool(self.view, add_landmark(self.canvas), HandleTool(), 0))
@@ -260,9 +270,13 @@ class Handler:
         if self.view.focused_item:
             self.canvas.remove(self.view.focused_item)
 
-    #def on_LoadCanvas_clicked(self, button):
-        #self.canvas = pickle.load(open('canvas.pkl', 'rb'))
-
+    def on_LoadCanvasBtn_clicked(self, button):
+        print("Loading")
+        self.view.canvas = pickle.load(open('saves/canvas.pkl', 'rb'))
+        self.canvas = self.view.canvas
+        self.pose_landmark_matrix = pickle.load(open('saves/pl_matrix.pkl', 'rb'))
+        self.pose_pose_matrix = pickle.load(open('saves/pp_matrix.pkl', 'rb'))
+        self.are_cov_matrices_set = True
         
     def focus_changed(self, view, item, what):
         view.focused_item = item
