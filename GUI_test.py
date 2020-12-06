@@ -18,6 +18,7 @@ from pose import Pose, Pose2D
 
 from random import randint
 import mrob
+import pickle
 
 
 def add_landmark(canvas):
@@ -71,6 +72,7 @@ class Handler:
 
 
     def on_MainWindow_destroy(self, *args):
+        #pickle.dump(self.canvas.get_all_items()[0], open('canvas.pkl', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
         Gtk.main_quit()
 
     def on_NewLandmarkBtn_clicked(self, button):
@@ -212,7 +214,7 @@ class Handler:
                 if isinstance(second_connected, Landmark) and isinstance(first_connected, Pose):
                     graph.add_factor_1pose_1landmark_2d(item.observation, first_connected.id, second_connected.id, self.pose_landmark_matrix)
 
-                elif isinstance(second_connected.Pose) and isinstance(second_connected, Landmark):
+                elif isinstance(second_connected.Pose) and isinstance(first_connected, Landmark):
                     graph.add_factor_1pose_1landmark_2d(item.observation, second_connected.id, first_connected.id, self.pose_landmark_matrix)
 
                 else:
@@ -237,6 +239,9 @@ class Handler:
     def on_DeleteFocusedBtn_clicked(self, button):
         if self.view.focused_item:
             self.canvas.remove(self.view.focused_item)
+
+    def on_LoadCanvas_clicked(self, button):
+        #self.canvas = pickle.load(open('canvas.pkl', 'rb'))
 
         
     def focus_changed(self, view, item, what):
