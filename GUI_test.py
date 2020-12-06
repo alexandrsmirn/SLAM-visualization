@@ -240,7 +240,7 @@ class Handler:
         if self.view.focused_item:
             self.canvas.remove(self.view.focused_item)
 
-    def on_LoadCanvas_clicked(self, button):
+    #def on_LoadCanvas_clicked(self, button):
         #self.canvas = pickle.load(open('canvas.pkl', 'rb'))
 
         
