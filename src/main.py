@@ -11,7 +11,7 @@ from gaphas.painter import DefaultPainter
 
 def main():
     builder = Gtk.Builder()
-    builder.add_from_file("GUI_test.glade")
+    builder.add_from_file("AppWindow.glade")
 
     graph_view = GtkView()
     graph_view.painter = DefaultPainter()
