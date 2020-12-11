@@ -1,4 +1,7 @@
 __pycache__
 venv
 GUI_test.glade~
+AppWindow.glade~
 TODO.txt
+.vscode
+saves
