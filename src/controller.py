@@ -39,7 +39,7 @@ class Controller:
   
     
     def on_AddFactor2DPPBtn_clicked(self, button):
-        self.model.add_factor_2DPL()
+        self.model.add_factor_2DPP()
 
 
     def on_SetCovMatricesBtn_clicked(self, button):
