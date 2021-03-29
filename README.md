@@ -22,4 +22,4 @@ python3 main.py
 ```
 
 ## Screenshot
-![screenshot](https://github.com/alexandrsmirn/SLAM-visualization/Screenshot.png)
+![screenshot](https://github.com/alexandrsmirn/SLAM-visualization/blob/master/Screenshot.png)
