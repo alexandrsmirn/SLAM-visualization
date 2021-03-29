@@ -15,8 +15,11 @@ pip install pip --upgrade
 pip install -r requirements.txt
 ```
 
-Now you can run examples
+Now you can run the application
 
 ```commandline
-python3 gaphas_example.py
+python3 main.py
 ```
+
+## Screenshot
+![screenshot](https://github.com/alexandrsmirn/SLAM-visualization/Screenshot.png)
