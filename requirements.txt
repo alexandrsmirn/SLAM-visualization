@@ -1,1 +1,8 @@
-gaphas
+gaphas==2.1.2
+importlib-metadata==1.7.0
+mrob==0.0.1
+numpy==1.20.2
+pycairo==1.20.0
+PyGObject==3.40.1
+typing-extensions==3.7.4.3
+zipp==3.4.1
